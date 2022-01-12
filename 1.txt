@@ -1,0 +1,31 @@
+<h1 style="text-align: center; margin: 45px">Constantinus</h1>
+            <h2 style="text-align: center; margin: 30px">I. Constantinus császár</h2>
+            <ul>
+                <li>Született: kb. 272. február 27. Naissus </li>
+                <li>Meghalt: 337. május 22. (65 évesen) Nicomedia</li>
+                <li>Apja: Constantius Chlorus</li>
+                <li>Anyja: Flavia Iulia Helena</li>
+                <br>
+                <ul>
+                    <p style="margin: 20px; font-size:1.5rem">Testvérei: </p>
+                    <li>Flavia Julia Constantia</li>
+                    <li>Eutropia</li>
+                    <li>Anastasia</li>
+                    <li>Flavius Iulius Constantius</li>
+                    <li>Flavius Iulius Dalmatius</li>
+                    <li>Flavius Hannibalianus</li>
+                </ul>
+                <br>
+                <ul>
+                    <p style="margin: 20px; font-size:1.5rem">Házastársa: </p>
+                    <li>Minervina (?-307)</li>
+                    <li>Fausta Flavia Maxima (307-326)</li>
+                </ul>
+                <ul>
+                    <p style="margin: 20px; font-size:1.5rem">Gyermekei: </p>
+                    <li>Crispus</li>
+                    <li>II. Constantius</li>
+                    <li>I. Constantinus</li>
+                    <li>Constans</li>
+                </ul>
+            </ul>

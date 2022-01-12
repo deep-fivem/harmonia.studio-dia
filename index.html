@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harmonia Studio</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        @keyframes drop {
+            0% {
+                opacity: 0;
+                transform: translateY(-80px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0px);
+            }
+        }
+        
+        @media screen and (min-width: 601px) {
+            div.example {
+                font-size: 80px;
+            }
+        }
+        
+        @media screen and (max-width: 600px) {
+            div.example {
+                font-size: 30px;
+            }
+        }
+        
+        #loader {
+            margin: auto;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            /* Safari */
+            animation: spin 2s linear infinite;
+        }
+        /* Safari */
+        
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .header {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: auto;
+            height: auto;
+        }
+        
+        .header button {
+            font-size: 1.0em;
+            border-radius: 3px;
+        }
+        
+        .middle {
+            user-select: none;
+            position: relative;
+            padding: 10px;
+            margin: 25px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .middle img {
+            max-width: 50vw;
+            max-height: 30vh;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            animation: drop 500ms ease;
+        }
+        
+        .middle p {
+            text-align: unset;
+            word-wrap: break-word;
+            font-size: 2.0rem;
+            margin: 0;
+            padding: 0;
+            animation: drop 1000ms ease;
+        }
+        
+        .middle p h1 h2 ul li {
+            text-align: unset;
+            word-wrap: break-word;
+            font-size: 2.0rem;
+            margin: 0;
+            padding: 0;
+            animation: drop 1000ms ease;
+        }
+        
+        #middle_content {
+            animation: drop 1000ms ease;
+        }
+        
+        .middle li p {
+            font-size: 2.5rem;
+        }
+        
+        .buttons {
+            position: absolute;
+            left: 0;
+            top: 10.5vw;
+        }
+        
+        .buttons button {
+            font-size: 3.0rem;
+            border-radius: 8px;
+        }
+        
+        #rightbutton {
+            position: absolute;
+            left: 74.5vw;
+        }
+        
+        .footer {
+            user-select: none;
+            position: absolute;
+            left: 0;
+            top: 0px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+</head>
+
+<body>
+    <script>
+        window.onload = function() {
+            document.body.style.width = screen.width
+            document.body.style.height = screen.height
+        };
+    </script>
+
+    <div class="header">
+        <form id="login">
+            <input id="input" type="password" autocomplete="off" />
+            <button>Login</button>
+        </form>
+        <button onclick="Logout()" id="logout">Logout</button>
+    </div>
+    <div class="middle">
+        <div id="loader"></div>
+        <img id="middle_img" src="">
+        <div id="middle_content">
+
+        </div>
+    </div>
+    <div class="buttons">
+        <button id="leftbutton">Left</button>
+        <button id="rightbutton">Right</button>
+    </div>
+    <div class="footer">
+        <p>harmonia.studio made by deep</p>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+
+        //hide stuff
+
+        document.getElementsByClassName('buttons')[0].style.display = 'none';
+        document.getElementById('logout').style.display = 'none';
+        document.getElementById('login').style.display = 'block';
+        //
+
+
+        var login = document.getElementById('login');
+        var input = document.getElementById('input');
+
+        login.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (input.value) {
+                socket.emit('log in', input.value);
+                input.value = '';
+            }
+        });
+
+        socket.on('logged', function() {
+            document.getElementsByClassName('buttons')[0].style.display = 'block';
+            document.getElementById('logout').style.display = 'block';
+            document.getElementById('login').style.display = 'none';
+        });
+
+        function Logout() {
+            document.getElementsByClassName('buttons')[0].style.display = 'none';
+            document.getElementById('logout').style.display = 'none';
+            document.getElementById('login').style.display = 'block';
+        }
+
+        var leftbutton = document.getElementById('leftbutton');
+        var rightbutton = document.getElementById('rightbutton');
+
+        leftbutton.addEventListener('click', function(e) {
+            e.preventDefault();
+            socket.emit('leftbutton');
+        });
+        rightbutton.addEventListener('click', function(e) {
+            e.preventDefault();
+            socket.emit('rightbutton');
+        });
+
+        socket.on('print', function(text) {
+            console.log('from server: ' + text);
+        });
+
+        socket.on('change', function(text, img) {
+            console.log('from server: ' + text)
+
+            document.getElementById('loader').style.display = "none";
+            //document.getElementById('middle_text').innerHTML = text;
+            $('#middle_content').html(text);
+            document.getElementById('middle_img').src = 'data:image/png;base64, ' + img;
+        });
+    </script>
+</body>
+
+
+</html>
